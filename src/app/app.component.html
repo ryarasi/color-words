@@ -37,9 +37,15 @@
         class="image-container"
         [ngStyle]="{ backgroundColor: img['colors'][0] }"
       >
-        <img style="opacity: 0" [src]="img['image']" alt="image" />
+        <img
+          [ngStyle]="showImages ? { opacity: 1 } : { opacity: 0 }"
+          [src]="img['image']"
+          alt="image"
+        />
 
-        <div class="image-text">{{ img["colors"][0] }}</div>
+        <div class="image-text">
+          <p>{{ img["colors"][0] }}</p>
+        </div>
       </div>
     </figure>
   </div>
