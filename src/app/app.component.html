@@ -1,6 +1,5 @@
 <div class="input-container center">
   <div class="center word-input-container">
-    <p>Enter any word or phrase below to see a list of associated colors</p>
     <input
       type="text"
       placeholder="Enter any word..."
@@ -10,4 +9,63 @@
     />
     <i class="search-icon fas fa-search" (click)="searchWord()"></i>
   </div>
+  <small *ngIf="loading">Please wait, while we fetch the results...</small>
 </div>
+
+<ng-container
+  *ngIf="!loading && !images.length && !lastSearchedWord"
+  [ngTemplateOutlet]="startingTemplate"
+></ng-container>
+
+<ng-container
+  *ngIf="!loading && !images.length && lastSearchedWord"
+  [ngTemplateOutlet]="noResultsTemplate"
+></ng-container>
+
+<ng-container
+  *ngIf="!loading && images.length"
+  [ngTemplateOutlet]="showImagesTemplate"
+></ng-container>
+
+<ng-container *ngIf="loading" [ngTemplateOutlet]="loadingTemplate">
+</ng-container>
+
+<ng-template #showImagesTemplate>
+  <div class="grid-container">
+    <figure *ngFor="let img of images">
+      <div
+        class="image-container"
+        [ngStyle]="{ backgroundColor: img['colors'][0] }"
+      >
+        <img style="opacity: 0" [src]="img['image']" alt="image" />
+
+        <div class="image-text">{{ img["colors"][0] }}</div>
+      </div>
+    </figure>
+  </div>
+</ng-template>
+
+<ng-template #loadingTemplate>
+  <div id="loader">
+    <div class="ls-particles ls-part-1"></div>
+    <div class="ls-particles ls-part-2"></div>
+    <div class="ls-particles ls-part-3"></div>
+    <div class="ls-particles ls-part-4"></div>
+    <div class="ls-particles ls-part-5"></div>
+    <div class="lightsaber ls-left ls-green"></div>
+    <div class="lightsaber ls-right ls-red"></div>
+  </div>
+</ng-template>
+
+<ng-template #startingTemplate>
+  <p class="center">
+    Type a word above and hit enter to see colors associated with it!
+  </p>
+</ng-template>
+
+<ng-template #noResultsTemplate>
+  <p class="center">
+    Oops! Looks like "{{ lastSearchedWord }}" didn't fetch any results. Try a
+    different word!
+  </p>
+</ng-template>
