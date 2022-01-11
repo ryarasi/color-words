@@ -1,27 +1,14 @@
 # ColorWords
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.1.2.
+This app takes in a word as input and shows you associated colors of the object that the word represents.
 
-## Development server
+# Basic info:-
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+- This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.1.2. using Node version 14.
+- The UI components were styled with [And Design](https://ant.design/)
 
-## Code scaffolding
+# Notes about the methodology:-
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
-
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+- When you enter the word, we fetch a few images from Google images
+- These images are fed to imagga's Color API which scans the images and presents us with 5 colors associated with each image
+- Finally based on the colors shown, we present a masonry grid where the size of a color tile represents the frequency of the color's occurence in the images
