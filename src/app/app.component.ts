@@ -59,7 +59,7 @@ const images = [
 })
 export class AppComponent {
   inputWord = '';
-  images = images;
+  images = [];
   loading = false;
   lastSearchedWord = '';
   showImages = false;
