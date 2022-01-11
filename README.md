@@ -2,12 +2,18 @@
 
 This app takes in a word as input and shows you associated colors of the object that the word represents.
 
-Link to project - https://ragav-word-colors.netlify.app/
+Link to app deployed on cloud - https://ragav-word-colors.netlify.app/
+
+Link to API code - https://github.com/ryarasi/word-colors-api
 
 # Basic info:-
 
 - This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.1.2. using Node version v14.17.0.
 - The project is built for deployment as a static site for network optimization using [Scully](https://scully.io/docs/learn/overview/)
+
+# Notable packages used:-
+
+- Scully - used for converting our Angular app into a static site, needed to deploy our Angular app to the cloud using JAMstack
 
 # Notes about the methodology used:-
 
@@ -24,3 +30,4 @@ Link to project - https://ragav-word-colors.netlify.app/
 - Once all the dependencies are installed, type `npm start` to run the project locally. The application will be served at http://localhost:4200/ by default
 - This project has been hosted on the cloud via Netlify at the link listed above
 - This code repo is configured to automatically update the deployment via [Netlify's CI service](https://www.netlify.com/blog/2016/09/29/a-step-by-step-guide-deploying-on-netlify/)
+- For a closer look at the method used to achieve the backend functionality, visit the [API repo](https://github.com/ryarasi/word-colors-api)
