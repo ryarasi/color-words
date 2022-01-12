@@ -42,3 +42,11 @@ Link to API code - https://github.com/ryarasi/word-colors-api
 - Open the terminal and change directory into the code directory and type `npm install` to install all the necessary dependencies
 - Once all the dependencies are installed, type `npm start` to run the project locally. The application will be served at http://localhost:4200/ by default.
 - Make sure to also run the API application in your local machine for it to work properly.
+
+# How to deploy this to the cloud via Netlify
+
+- Create your [Netlify](https://www.netlify.com/) account if you don't have one already
+- Sign into your account and create a new project. You can either upload your fields directly or connect your Git account (GitHub or GitLab). The latter is preferred.
+- Once you connect your account, select the repo of this project. You must have already pushed this repo to your account.
+- While setting up the repo, you will be asked to set the `publish directory`and `build command`. Use `dist/static/` and `build:production` respectively.
+- Once this is set, you can either manually trigger deploys or alter the settings to enable automatic deployments when changes are pushed to a specific branch.[Detailed instructions](https://www.netlify.com/blog/2016/09/29/a-step-by-step-guide-deploying-on-netlify/)
