@@ -1,14 +1,29 @@
+<!-- The starting point wher we show the user the input field -->
 <ng-container
   *ngIf="isStartingPoint()"
   [ngTemplateOutlet]="startingTemplate"
 ></ng-container>
 
+<!-- When the search query is passed to the API and we're waiting -->
+<ng-container *ngIf="loading" [ngTemplateOutlet]="loadingTemplate">
+</ng-container>
+
+<!-- After the search is complete -->
 <ng-container
   *ngIf="isSearchComplete()"
   [ngTemplateOutlet]="searchCompleteTemplate"
 ></ng-container>
 
-<ng-template #startingInputTemplate>
+<!-- When there are no results shown -->
+<ng-container
+  *ngIf="noResultsFound()"
+  [ngTemplateOutlet]="noResultsTemplate"
+></ng-container>
+
+<!-- All the necessary template definitions -->
+
+<!-- Template definition for the starting point -->
+<ng-template #startingTemplate>
   <div class="input-container center">
     <div class="center word-input-container">
       <input
@@ -22,8 +37,17 @@
       <i class="search-icon fas fa-search" (click)="searchWord()"></i>
     </div>
   </div>
+  <p class="center">
+    Type something above and hit enter to see colors associated with it!
+  </p>
+  <br />
+  <br />
+  <div class="center">
+    <ng-container [ngTemplateOutlet]="gitHubIconTemplate"></ng-container>
+  </div>
 </ng-template>
 
+<!-- Template outlet for Search Results -->
 <ng-template #searchCompleteTemplate>
   <div class="input-container center">
     <p>Showing colors that match "{{ lastSearchedWord }}"</p>
@@ -64,6 +88,7 @@
   <ng-container [ngTemplateOutlet]="showImagesTemplate"></ng-container>
 </ng-template>
 
+<!-- Template definition for the github icon, since it is used in 2 separate places -->
 <ng-template #gitHubIconTemplate>
   <a
     [href]="github"
@@ -76,14 +101,23 @@
   </a>
 </ng-template>
 
-<ng-container
-  *ngIf="noResultsFound()"
-  [ngTemplateOutlet]="noResultsTemplate"
-></ng-container>
+<!-- Template definition for loading -->
+<ng-template #loadingTemplate>
+  <p class="center">
+    Fetching results for "{{ lastSearchedWord }}". Please wait...
+  </p>
+  <div id="loader">
+    <div class="ls-particles ls-part-1"></div>
+    <div class="ls-particles ls-part-2"></div>
+    <div class="ls-particles ls-part-3"></div>
+    <div class="ls-particles ls-part-4"></div>
+    <div class="ls-particles ls-part-5"></div>
+    <div class="lightsaber ls-left ls-green"></div>
+    <div class="lightsaber ls-right ls-red"></div>
+  </div>
+</ng-template>
 
-<ng-container *ngIf="loading" [ngTemplateOutlet]="loadingTemplate">
-</ng-container>
-
+<!-- Template definition for showing the results -->
 <ng-template #showImagesTemplate>
   <div class="grid-container">
     <figure *ngFor="let img of images; let i = index">
@@ -112,33 +146,7 @@
   </div>
 </ng-template>
 
-<ng-template #loadingTemplate>
-  <p class="center">
-    Fetching results for "{{ lastSearchedWord }}". Please wait...
-  </p>
-  <div id="loader">
-    <div class="ls-particles ls-part-1"></div>
-    <div class="ls-particles ls-part-2"></div>
-    <div class="ls-particles ls-part-3"></div>
-    <div class="ls-particles ls-part-4"></div>
-    <div class="ls-particles ls-part-5"></div>
-    <div class="lightsaber ls-left ls-green"></div>
-    <div class="lightsaber ls-right ls-red"></div>
-  </div>
-</ng-template>
-
-<ng-template #startingTemplate>
-  <ng-container [ngTemplateOutlet]="startingInputTemplate"></ng-container>
-  <p class="center">
-    Type something above and hit enter to see colors associated with it!
-  </p>
-  <br />
-  <br />
-  <div class="center">
-    <ng-container [ngTemplateOutlet]="gitHubIconTemplate"></ng-container>
-  </div>
-</ng-template>
-
+<!-- Template definition for when there are no results -->
 <ng-template #noResultsTemplate>
   <p class="center">
     Oops! Looks like "{{ lastSearchedWord }}" didn't fetch any results. Try a
@@ -146,6 +154,7 @@
   </p>
 </ng-template>
 
+<!-- Footer -->
 <footer *ngIf="isStartingPoint()" class="unselectable copyright-text">
   Copyright &copy; {{ currentYear }} Ragavendra Yarasi, All Rights Reserved
 </footer>
