@@ -1,8 +1,10 @@
+import { Clipboard } from '@angular/cdk/clipboard';
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { environment } from 'src/environments/environment';
+import { HotToastService } from '@ngneat/hot-toast';
 
-const images = [
+const sampleImages = [
   {
     image:
       'https://images.immediate.co.uk/production/volatile/sites/30/2018/08/mango-fee0d79.jpg?quality=90&resize=556,505',
@@ -59,27 +61,78 @@ const images = [
 })
 export class AppComponent {
   inputWord = '';
-  images = [];
+  images: any[] = sampleImages;
   loading = false;
   lastSearchedWord = '';
   showImages = false;
-
-  constructor(private http: HttpClient) {}
+  notSatisfied = false;
+  currentYear = new Date().getFullYear();
+  github = 'https://github.com/ryarasi/color-words';
+  linkedin = 'https://www.linkedin.com/in/ryarasi/';
+  constructor(
+    private http: HttpClient,
+    private clipboard: Clipboard,
+    private toastService: HotToastService
+  ) {}
 
   inputEnter = (event: any) => {
     if (event.key == 'Enter') {
       this.searchWord();
     }
   };
+
+  isStartingPoint() {
+    return (
+      !this.loading && !this.images.length && !this.lastSearchedWord.length
+    );
+  }
+
+  isSearchComplete() {
+    return !this.loading && this.images.length;
+  }
+
+  noResultsFound() {
+    return !this.loading && !this.images.length && this.lastSearchedWord;
+  }
+
+  colorIndex(index: number) {
+    const colorsLength = this.images[index]['colors']?.length;
+    if (this.notSatisfied) {
+      return colorsLength > 0 ? 1 : 0;
+    } else {
+      return 0;
+    }
+  }
+
+  toggleNotSatisfied() {
+    this.showImages = false;
+    this.notSatisfied = !this.notSatisfied;
+  }
+
   searchWord() {
     this.lastSearchedWord = this.inputWord;
     this.loading = true;
-    console.log('The word is ', this.inputWord);
     const url = `${environment.apiBaseUrl}/images?query=${this.inputWord}`;
     this.http.get<any>(url).subscribe((data) => {
       this.loading = false;
       this.images = data;
-      console.log('images ', { images: this.images });
+      console.log('Search Results => ', { images: this.images });
     });
+  }
+
+  toggleShowImages() {
+    this.showImages = !this.showImages;
+  }
+
+  copyColorCode(index: number) {
+    const code = this.images[index]['colors'][this.colorIndex(index)];
+    this.clipboard.copy(code);
+    this.toastService.success(`Copied ${code} to your clipboard!`);
+  }
+
+  resetSearch() {
+    this.inputWord = '';
+    this.lastSearchedWord = '';
+    this.images = [];
   }
 }

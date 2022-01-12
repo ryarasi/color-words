@@ -1,30 +1,84 @@
-<div class="input-container center">
-  <div class="center word-input-container">
-    <input
-      type="text"
-      placeholder="Enter any word..."
-      class="word-input-box"
-      [(ngModel)]="inputWord"
-      (keydown)="inputEnter($event)"
-    />
-    <i class="search-icon fas fa-search" (click)="searchWord()"></i>
-  </div>
-  <small *ngIf="loading">Please wait, while we fetch the results...</small>
-</div>
-
 <ng-container
-  *ngIf="!loading && !images.length && !lastSearchedWord"
+  *ngIf="isStartingPoint()"
   [ngTemplateOutlet]="startingTemplate"
 ></ng-container>
 
 <ng-container
-  *ngIf="!loading && !images.length && lastSearchedWord"
-  [ngTemplateOutlet]="noResultsTemplate"
+  *ngIf="isSearchComplete()"
+  [ngTemplateOutlet]="searchCompleteTemplate"
 ></ng-container>
 
+<ng-template #startingInputTemplate>
+  <div class="input-container center">
+    <div class="center word-input-container">
+      <input
+        [autofocus]="true"
+        type="text"
+        placeholder="Enter any word..."
+        class="word-input-box"
+        [(ngModel)]="inputWord"
+        (keydown)="inputEnter($event)"
+      />
+      <i class="search-icon fas fa-search" (click)="searchWord()"></i>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #searchCompleteTemplate>
+  <div class="input-container center">
+    <p>Showing colors that match "{{ lastSearchedWord }}"</p>
+    <button
+      class="button"
+      matTooltip="Click to see an alternative secondary color that might be a better match"
+      matTooltipPosition="above"
+      matTooltipClass="tooltip"
+      (click)="toggleNotSatisfied()"
+    >
+      Not Satisfied?
+    </button>
+
+    <button
+      class="button"
+      matTooltip="Show the images that these colors are based on"
+      matTooltipPosition="above"
+      matTooltipClass="tooltip"
+      (click)="toggleShowImages()"
+    >
+      {{ showImages ? "Hide" : "Show" }} Images
+    </button>
+
+    <button
+      class="button"
+      matTooltip="Try a different search term"
+      matTooltipPosition="above"
+      matTooltipClass="tooltip"
+      (click)="resetSearch()"
+    >
+      Try something else
+    </button>
+    <ng-container
+      style="float: right"
+      [ngTemplateOutlet]="gitHubIconTemplate"
+    ></ng-container>
+  </div>
+  <ng-container [ngTemplateOutlet]="showImagesTemplate"></ng-container>
+</ng-template>
+
+<ng-template #gitHubIconTemplate>
+  <a
+    [href]="github"
+    class="github-button"
+    target="blank"
+    rel="noreferrer noopener"
+    matTooltip="View source code"
+  >
+    <i style="font-size: 2em; color: black" class="fa fa-github"></i>
+  </a>
+</ng-template>
+
 <ng-container
-  *ngIf="!loading && images.length"
-  [ngTemplateOutlet]="showImagesTemplate"
+  *ngIf="noResultsFound()"
+  [ngTemplateOutlet]="noResultsTemplate"
 ></ng-container>
 
 <ng-container *ngIf="loading" [ngTemplateOutlet]="loadingTemplate">
@@ -32,10 +86,17 @@
 
 <ng-template #showImagesTemplate>
   <div class="grid-container">
-    <figure *ngFor="let img of images">
+    <figure *ngFor="let img of images; let i = index">
       <div
         class="image-container"
-        [ngStyle]="{ backgroundColor: img['colors'][0] }"
+        (click)="copyColorCode(i)"
+        [matTooltip]="
+          'Click to copy the ' +
+          img['colors'][colorIndex(i)] +
+          ' to your clipboard'
+        "
+        matTooltipClass="tooltip"
+        [ngStyle]="{ backgroundColor: img['colors'][colorIndex(i)] }"
       >
         <img
           [ngStyle]="showImages ? { opacity: 1 } : { opacity: 0 }"
@@ -44,7 +105,7 @@
         />
 
         <div class="image-text">
-          <p>{{ img["colors"][0] }}</p>
+          <p>{{ img["colors"][colorIndex(i)] }}</p>
         </div>
       </div>
     </figure>
@@ -52,6 +113,9 @@
 </ng-template>
 
 <ng-template #loadingTemplate>
+  <p class="center">
+    Fetching results for "{{ lastSearchedWord }}". Please wait...
+  </p>
   <div id="loader">
     <div class="ls-particles ls-part-1"></div>
     <div class="ls-particles ls-part-2"></div>
@@ -64,9 +128,15 @@
 </ng-template>
 
 <ng-template #startingTemplate>
+  <ng-container [ngTemplateOutlet]="startingInputTemplate"></ng-container>
   <p class="center">
-    Type a word above and hit enter to see colors associated with it!
+    Type something above and hit enter to see colors associated with it!
   </p>
+  <br />
+  <br />
+  <div class="center">
+    <ng-container [ngTemplateOutlet]="gitHubIconTemplate"></ng-container>
+  </div>
 </ng-template>
 
 <ng-template #noResultsTemplate>
@@ -75,3 +145,7 @@
     different word!
   </p>
 </ng-template>
+
+<footer *ngIf="isStartingPoint()" class="unselectable copyright-text">
+  Copyright &copy; {{ currentYear }} Ragavendra Yarasi, All Rights Reserved
+</footer>

@@ -4,7 +4,8 @@
   max-height: 10%;
   background: rgba(0, 0, 0, 0.05);
   border-radius: 5px;
-  padding: 5px;
+  padding: 10px;
+  margin-bottom: 20px;
 }
 
 .center {
@@ -16,7 +17,7 @@
 
 .word-input-container {
   width: 80%;
-  padding: 20px 20px 5px 20px;
+  padding: 20px;
 }
 
 .word-input-container {
@@ -43,9 +44,33 @@
   cursor: pointer;
 }
 
+.github-button {
+  margin: 10px 20px;
+}
+
+.button {
+  padding: 10px;
+  border-radius: 30px;
+  border: 2px solid black;
+  font-size: 1.2em;
+  background-color: #fff;
+  margin: 5px 10px;
+}
+
+.button:hover {
+  cursor: pointer;
+}
+
+.tooltip {
+  font-size: 2em;
+  background-color: #fff;
+  color: #000;
+}
+
 img {
   max-width: 100%;
   display: block;
+  border-radius: 20px;
 }
 
 figure {
@@ -56,27 +81,21 @@ figure {
   break-inside: avoid;
 }
 
+figure:hover {
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+}
+
 figure > img {
   grid-row: 1 / -1;
   grid-column: 1;
 }
 
-figure a {
-  color: black;
-  text-decoration: none;
-}
-
-figcaption {
-  grid-row: 2;
-  grid-column: 1;
-  background-color: rgba(255, 255, 255, 0.5);
-  padding: 0.2em 0.5em;
-  justify-self: start;
-}
-
 .grid-container {
   column-count: 4;
-  column-gap: 10px;
+  column-gap: 5px;
+  padding: 10px;
+  margin-bottom: 50px;
 }
 
 .image-container {
@@ -90,6 +109,7 @@ figcaption {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  font-size: 1.5em;
 }
 
 .image-text > p {
@@ -98,9 +118,46 @@ figcaption {
   -webkit-text-stroke-color: rgb(17, 16, 16);
 }
 
+// Footer
+
+.unselectable {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.copyright-text {
+  --copyright-text-length: 400px;
+  font-size: 0.9em;
+  position: absolute;
+  bottom: 5px;
+  text-align: center;
+  display: block;
+  left: calc(50vw - var(--copyright-text-length) / 2);
+  right: calc(50vw - var(--copyright-text-length) / 2);
+  color: rgba(0, 0, 0, 0.4);
+}
+
 @media only screen and (max-width: 600px) {
   .input-container {
-    width: 95%;
+    width: 100%;
+    max-height: 200px;
+  }
+
+  .copyright-text {
+    bottom: 2px;
+    font-size: 0.8em;
+  }
+
+  .button {
+    font-size: 1em;
+  }
+
+  .image-text {
+    font-size: 1em;
   }
 }
 
