@@ -2,7 +2,7 @@
 
 This app takes in a word (or a phrase) as input and shows you associated colors of the object that the word or phrase represents.
 
-Link to app UI deployed on cloud - https://ragav-word-colors.netlify.app/
+Link to app UI deployed on cloud - https://ragav-word-colors.netlify.app
 
 Link to the API deployed on the cloud - https://word-colors-api.herokuapp.com
 
